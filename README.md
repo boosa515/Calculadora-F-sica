@@ -65,25 +65,24 @@ Este método requer que você tenha o Python e as bibliotecas instaladas.
 Assumindo que você já clonou o repositório e está no diretório do projeto:
 
   Cria e ativa o ambiente virtual
-  ```bash
+  ```bash
   python -m venv venv
-  ```
+  ```
   
   Windows:
-  ```bash
+  ```bash
   .\venv\Scripts\activate
-  ```
+  ```
   
   macOS/Linux:
-  ```bash
+  ```bash
   source venv/bin/activate
-  ```
+  ```
   
   Instala as dependências (PyQt5 e PyInstaller)
-  ```bash
+  ```bash
   pip install PyQt5 pyinstaller
-  ```
-
+  ```
 <br/>
 
 # 2. Rodar a Aplicação
@@ -91,11 +90,11 @@ Com o ambiente virtual ativado, execute o script principal.
 
 
   Inicia a aplicação
-  ```bash
+  ```bash
   python main.py
-  ```
+  ```
   
   Acesso
-  ```bash
+  ```bash
   A janela principal da calculadora será aberta automaticamente.
-  ```
+  ```
