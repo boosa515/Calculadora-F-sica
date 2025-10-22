@@ -79,11 +79,10 @@ Assumindo que você já clonou o repositório e está no diretório do projeto:
   source venv/bin/activate
   ```
   
-  Instala as dependências (PyQt5)
+  Instala as dependências (PyQt5 e PyInstaller)
   ```bash
-  pip install PyQt5
+  pip install PyQt5 pyinstaller
   ```
-*(Nota: Se um arquivo `requirements.txt` for fornecido, use `pip install -r requirements.txt`)*
 
 <br/>
 
