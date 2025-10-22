@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QLineEdit, 
     QPushButton, QFormLayout, QGroupBox, QMessageBox, QComboBox, QTextEdit
 )
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QLocale
 from PyQt5.QtGui import QDoubleValidator
 
 # Importa as funções de cálculo da pasta 'core'
@@ -29,7 +29,7 @@ class TelaQuedaLivre(QWidget):
         titulo.setStyleSheet("font-size: 18pt; font-weight: 600; margin-bottom: 15px;")
         layout.addWidget(titulo)
         
-        explicacao = QLabel("Estuda o movimento vertical, onde a única aceleração é a da gravidade ($g$). Usamos o sinal negativo na fórmula para $g$ (aceleração para baixo).")
+        explicacao = QLabel("Estuda o movimento vertical, onde a única aceleração é a da gravidade (g). Usamos o sinal negativo na fórmula para g (aceleração para baixo).")
         explicacao.setWordWrap(True)
         layout.addWidget(explicacao)
 
@@ -44,7 +44,6 @@ class TelaQuedaLivre(QWidget):
             "Lua (g ≈ 1.62 m/s²)",
             "Personalizada..."
         ])
-        # Conexão que estava faltando ou incorreta
         self.combo_gravidade.currentIndexChanged.connect(self.atualizar_gravidade)
         
         # Campo para Gravidade Personalizada
@@ -73,6 +72,8 @@ class TelaQuedaLivre(QWidget):
         # Cria um validador para números flutuantes
         float_validator = QDoubleValidator()
         float_validator.setDecimals(4) 
+        # CORREÇÃO: Define o Locale para "C" (aceita PONTO como separador)
+        float_validator.setLocale(QLocale(QLocale.C))
         
         self.inputs = {}
         campos = [
@@ -101,7 +102,8 @@ class TelaQuedaLivre(QWidget):
         self.resultado_output = QTextEdit()
         self.resultado_output.setReadOnly(True)
         self.resultado_output.setPlaceholderText("O passo a passo e o resultado do cálculo aparecerão aqui.")
-        self.resultado_output.setStyleSheet("font-size: 11pt; border: 1px solid #333; background-color: #eee; padding: 10px;")
+        # Removido o estilo que definia cor de fundo fixa
+        self.resultado_output.setStyleSheet("font-size: 11pt; padding: 10px;")
         layout.addWidget(self.resultado_output)
 
 
@@ -128,6 +130,7 @@ class TelaQuedaLivre(QWidget):
         dados = {}
         
         # Tenta obter a gravidade (g)
+        # CORREÇÃO: Garante que vírgulas também sejam aceitas
         g_texto = self.g_input_personalizado.text().replace(',', '.')
         try:
             dados['g'] = float(g_texto)
@@ -137,6 +140,7 @@ class TelaQuedaLivre(QWidget):
         
         # Tenta obter os demais campos necessários
         for campo in campos_necessarios:
+            # CORREÇÃO: Garante que vírgulas também sejam aceitas
             texto = self.inputs[campo].text().replace(',', '.')
             if not texto:
                 return None

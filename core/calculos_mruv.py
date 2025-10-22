@@ -1,5 +1,24 @@
 import math
 
+def formatar_passo_a_passo(titulo, formula, entradas, substituicao, resultado_final):
+    """Gera uma string HTML formatada para o passo a passo."""
+    
+    # Monta a lista de entradas
+    entradas_html = "<ul>"
+    for item in entradas:
+        entradas_html += f"<li>{item}</li>"
+    entradas_html += "</ul>"
+    
+    # Monta a string final
+    html = (
+        f"<h3>➡️ {titulo}</h3>"
+        f"<p><b>Fórmula Utilizada:</b><br><code>{formula}</code></p>"
+        f"<p><b>Onde:</b></p>{entradas_html}"
+        f"<p><b>Substituindo os valores:</b><br><code>{substituicao}</code></p>"
+        f"<p><b>Resultado:</b><br><code>{resultado_final}</code></p>"
+    )
+    return html
+
 def calcular_velocidade_final(v0, a, t):
     """
     Calcula a velocidade final (v) no MRUV.
@@ -7,27 +26,27 @@ def calcular_velocidade_final(v0, a, t):
     
     Retorna:
     - resultado (float): O valor da velocidade final.
-    - passo_a_passo (str): O texto formatado (HTML/LaTeX) com a explicação do cálculo.
+    - passo_a_passo (str): O texto formatado (HTML) com a explicação do cálculo.
     """
     
     # 1. Realiza o cálculo
     v = v0 + a * t
     
-    # 2. Cria o texto do passo a passo (usando {{}} para escapar a formatação LaTeX)
-    passo_a_passo = (
-        f"### ➡️ Cálculo da Velocidade Final (v) \n"
-        f"**Fórmula Utilizada:** $$v = v_0 + a \\cdot t$$ \n"
-        f"Onde:\n"
-        f" - $v_0$ = Velocidade Inicial ({{v0:.2f}} m/s)\n"
-        f" - $a$ = Aceleração ({{a:.2f}} m/s²)\n"
-        f" - $t$ = Tempo ({{t:.2f}} s)\n\n"
-        
-        f"**Substituindo os valores:**\n"
-        f"$$v = {{v0:.2f}} + ({{a:.2f}}) \\cdot ({{t:.2f}})$$ \n"
-        f"$$v = {{v0:.2f}} + ({{a*t:.2f}})$$ \n"
-        f"**Resultado:**\n"
-        f"$$v = \\mathbf{{{v:.2f}}} \\text{{ m/s}}$$"
+    # 2. Cria o texto do passo a passo
+    titulo = "Cálculo da Velocidade Final (v)"
+    formula = "v = v₀ + a · t"
+    entradas = [
+        f"v₀ = Velocidade Inicial ({v0:.2f} m/s)",
+        f"a = Aceleração ({a:.2f} m/s²)",
+        f"t = Tempo ({t:.2f} s)"
+    ]
+    substituicao = (
+        f"v = {v0:.2f} + ({a:.2f}) · ({t:.2f})<br>"
+        f"v = {v0:.2f} + ({a*t:.2f})"
     )
+    resultado = f"v = <b>{v:.2f} m/s</b>"
+    
+    passo_a_passo = formatar_passo_a_passo(titulo, formula, entradas, substituicao, resultado)
     
     return v, passo_a_passo
 
@@ -42,22 +61,22 @@ def calcular_posicao_final(s0, v0, a, t):
     s = s0 + v0 * t + 0.5 * a * (t**2)
     
     # 2. Cria o texto do passo a passo
-    passo_a_passo = (
-        f"### ➡️ Cálculo da Posição Final (s) \n"
-        f"**Fórmula Utilizada:** $$s = s_0 + v_0 \\cdot t + \\frac{{1}}{{2}} a \\cdot t^2$$ \n"
-        f"Onde:\n"
-        f" - $s_0$ = Posição Inicial ({{s0:.2f}} m)\n"
-        f" - $v_0$ = Velocidade Inicial ({{v0:.2f}} m/s)\n"
-        f" - $a$ = Aceleração ({{a:.2f}} m/s²)\n"
-        f" - $t$ = Tempo ({{t:.2f}} s)\n\n"
-        
-        f"**Substituindo os valores:**\n"
-        f"$$s = {{s0:.2f}} + ({{v0:.2f}}) \\cdot ({{t:.2f}}) + 0.5 \\cdot ({{a:.2f}}) \\cdot ({{t:.2f}})^2$$ \n"
-        f"$$s = {{s0:.2f}} + ({{v0*t:.2f}}) + ({{0.5*a*(t**2):.2f}})$$ \n"
-        f"**Resultado:**\n"
-        f"$$s = \\mathbf{{{s:.2f}}} \\text{{ m}}$$"
+    titulo = "Cálculo da Posição Final (s)"
+    formula = "s = s₀ + v₀·t + ½ a·t²"
+    entradas = [
+        f"s₀ = Posição Inicial ({s0:.2f} m)",
+        f"v₀ = Velocidade Inicial ({v0:.2f} m/s)",
+        f"a = Aceleração ({a:.2f} m/s²)",
+        f"t = Tempo ({t:.2f} s)"
+    ]
+    substituicao = (
+        f"s = {s0:.2f} + ({v0:.2f}) · ({t:.2f}) + 0.5 · ({a:.2f}) · ({t:.2f})²<br>"
+        f"s = {s0:.2f} + ({v0*t:.2f}) + ({0.5*a*(t**2):.2f})"
     )
+    resultado = f"s = <b>{s:.2f} m</b>"
     
+    passo_a_passo = formatar_passo_a_passo(titulo, formula, entradas, substituicao, resultado)
+
     return s, passo_a_passo
 
 
@@ -72,25 +91,25 @@ def calcular_torricelli(v0, a, ds):
     
     if v_quadrado < 0:
         # Erro de física: v² não pode ser negativo
-        return None, "Erro: Valores de entrada resultam em velocidade ao quadrado negativa (impossível para grandezas reais). Verifique os sinais de aceleração e deslocamento."
+        return None, "<b>Erro de Física:</b><br>Valores de entrada resultam em velocidade ao quadrado negativa (impossível para grandezas reais).<br>Verifique os sinais de aceleração e deslocamento."
 
     v = math.sqrt(v_quadrado) # Usamos math.sqrt
     
     # 2. Cria o texto do passo a passo
-    passo_a_passo = (
-        f"### ➡️ Cálculo da Velocidade Final (v) por Torricelli \n"
-        f"**Fórmula Utilizada:** $$v^2 = v_0^2 + 2 \\cdot a \\cdot \\Delta s$$ \n"
-        f"Onde:\n"
-        f" - $v_0$ = Velocidade Inicial ({{v0:.2f}} m/s)\n"
-        f" - $a$ = Aceleração ({{a:.2f}} m/s²)\n"
-        f" - $\\Delta s$ = Deslocamento ({{ds:.2f}} m)\n\n"
-        
-        f"**Substituindo os valores:**\n"
-        f"$$v^2 = ({{v0:.2f}})^2 + 2 \\cdot ({{a:.2f}}) \\cdot ({{ds:.2f}})$$ \n"
-        f"$$v^2 = {{v0**2:.2f}} + {{2*a*ds:.2f}}$$ \n"
-        f"$$v^2 = {{v_quadrado:.2f}}$$ \n"
-        f"**Resultado:**\n"
-        f"$$v = \\sqrt{{{v_quadrado:.2f}}} = \\mathbf{{{v:.2f}}} \\text{{ m/s}}$$"
+    titulo = "Cálculo da Velocidade Final (v) por Torricelli"
+    formula = "v² = v₀² + 2·a·Δs"
+    entradas = [
+        f"v₀ = Velocidade Inicial ({v0:.2f} m/s)",
+        f"a = Aceleração ({a:.2f} m/s²)",
+        f"Δs = Deslocamento ({ds:.2f} m)"
+    ]
+    substituicao = (
+        f"v² = ({v0:.2f})² + 2 · ({a:.2f}) · ({ds:.2f})<br>"
+        f"v² = {v0**2:.2f} + {2*a*ds:.2f}<br>"
+        f"v² = {v_quadrado:.2f}"
     )
+    resultado = f"v = √({v_quadrado:.2f}) = <b>{v:.2f} m/s</b>"
     
+    passo_a_passo = formatar_passo_a_passo(titulo, formula, entradas, substituicao, resultado)
+
     return v, passo_a_passo

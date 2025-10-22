@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QLineEdit, 
     QPushButton, QFormLayout, QGroupBox, QMessageBox, QComboBox, QTextEdit
 )
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QLocale
 from PyQt5.QtGui import QDoubleValidator
 
 # Importa as funções de cálculo da pasta 'core'
@@ -59,6 +59,8 @@ class TelaMRUV(QWidget):
         # Cria um validador para números flutuantes (decimais)
         float_validator = QDoubleValidator()
         float_validator.setDecimals(4) 
+        # CORREÇÃO: Define o Locale para "C" (aceita PONTO como separador)
+        float_validator.setLocale(QLocale(QLocale.C))
         
         # Dicionário para armazenar o QLineEdit de cada campo
         self.inputs = {}
@@ -92,7 +94,8 @@ class TelaMRUV(QWidget):
         self.resultado_output = QTextEdit()
         self.resultado_output.setReadOnly(True)
         self.resultado_output.setPlaceholderText("O passo a passo e o resultado do cálculo aparecerão aqui.")
-        self.resultado_output.setStyleSheet("font-size: 11pt; border: 1px solid #333; background-color: #eee; padding: 10px;")
+        # Removido o estilo que definia cor de fundo fixa
+        self.resultado_output.setStyleSheet("font-size: 11pt; padding: 10px;")
         layout.addWidget(self.resultado_output)
 
 
@@ -113,6 +116,7 @@ class TelaMRUV(QWidget):
         dados = {}
         
         for campo in campos_necessarios:
+            # CORREÇÃO: Garante que vírgulas também sejam aceitas, convertendo para ponto
             texto = self.inputs[campo].text().replace(',', '.')
             if not texto:
                 return None  # Retorna erro se campo necessário estiver vazio
@@ -162,7 +166,8 @@ class TelaMRUV(QWidget):
                 resultado, passo_a_passo = calcular_torricelli(dados['v0'], dados['a'], dados['ds'])
                 if resultado is None:
                     # Captura o erro físico (raiz de número negativo)
-                    QMessageBox.critical(self, "Erro de Física", passo_a_passo)
+                    # Exibe o erro formatado em HTML
+                    self.resultado_output.setHtml(passo_a_passo) 
                     return
         
         except Exception as e:

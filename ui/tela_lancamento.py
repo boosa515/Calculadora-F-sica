@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QLineEdit, 
     QPushButton, QFormLayout, QGroupBox, QMessageBox, QTextEdit
 )
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QLocale
 from PyQt5.QtGui import QDoubleValidator
 
 # Importa as funções de cálculo
@@ -34,11 +34,13 @@ class TelaLancamento(QWidget):
         
         float_validator = QDoubleValidator()
         float_validator.setDecimals(4) 
+        # CORREÇÃO: Define o Locale para "C" (aceita PONTO como separador)
+        float_validator.setLocale(QLocale(QLocale.C))
         
         self.inputs = {}
         campos = [
-            ("v0", "Velocidade Inicial ($v_0$ - m/s):"),
-            ("angulo", "Ângulo de Lançamento ($\\theta$ - graus):"),
+            ("v0", "Velocidade Inicial (v₀ - m/s):"),
+            ("angulo", "Ângulo de Lançamento (θ - graus):"),
             ("g", "Gravidade (g - m/s²):"),
         ]
         
@@ -65,6 +67,8 @@ class TelaLancamento(QWidget):
         self.resultado_output = QTextEdit()
         self.resultado_output.setReadOnly(True)
         self.resultado_output.setPlaceholderText("O passo a passo e os resultados (Altura Máxima, Alcance e Tempo de Voo) aparecerão aqui.")
+        # Removido o estilo que definia cor de fundo fixa
+        self.resultado_output.setStyleSheet("font-size: 11pt; padding: 10px;")
         layout.addWidget(self.resultado_output)
 
 
@@ -76,6 +80,7 @@ class TelaLancamento(QWidget):
         # 1. Obtém e valida os dados
         dados = {}
         for campo in campos_necessarios:
+            # CORREÇÃO: Garante que vírgulas também sejam aceitas
             texto = self.inputs[campo].text().replace(',', '.')
             if not texto:
                 QMessageBox.warning(self, "Atenção", "Por favor, preencha todos os campos necessários.")

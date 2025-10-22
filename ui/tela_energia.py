@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QLineEdit, 
     QPushButton, QFormLayout, QGroupBox, QMessageBox, QComboBox, QTextEdit
 )
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QLocale
 from PyQt5.QtGui import QDoubleValidator
 
 # Importa as funções de cálculo
@@ -34,8 +34,8 @@ class TelaEnergia(QWidget):
         
         self.combo_formula = QComboBox()
         self.combo_formula.addItems([
-            "Energia Cinética ($E_c$)", 
-            "Energia Potencial Gravitacional ($E_{pg}$)"
+            "Energia Cinética (E_c)", 
+            "Energia Potencial Gravitacional (E_pg)"
         ])
         self.combo_formula.currentIndexChanged.connect(self.limpar_campos)
         
@@ -48,6 +48,8 @@ class TelaEnergia(QWidget):
         
         float_validator = QDoubleValidator()
         float_validator.setDecimals(4) 
+        # CORREÇÃO: Define o Locale para "C" (aceita PONTO como separador)
+        float_validator.setLocale(QLocale(QLocale.C))
         
         self.inputs = {}
         campos = [
@@ -80,6 +82,8 @@ class TelaEnergia(QWidget):
         self.resultado_output = QTextEdit()
         self.resultado_output.setReadOnly(True)
         self.resultado_output.setPlaceholderText("O passo a passo e o resultado do cálculo aparecerão aqui.")
+        # Removido o estilo que definia cor de fundo fixa
+        self.resultado_output.setStyleSheet("font-size: 11pt; padding: 10px;")
         layout.addWidget(self.resultado_output)
 
 
@@ -96,6 +100,7 @@ class TelaEnergia(QWidget):
         dados = {}
         
         for campo in campos_necessarios:
+            # CORREÇÃO: Garante que vírgulas também sejam aceitas
             texto = self.inputs[campo].text().replace(',', '.')
             if not texto:
                 return None  

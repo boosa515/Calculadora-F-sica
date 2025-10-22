@@ -1,3 +1,19 @@
+# (Importa a função auxiliar do calculos_mruv)
+def formatar_passo_a_passo(titulo, formula, entradas, substituicao, resultado_final):
+    """Gera uma string HTML formatada para o passo a passo."""
+    entradas_html = "<ul>"
+    for item in entradas:
+        entradas_html += f"<li>{item}</li>"
+    entradas_html += "</ul>"
+    html = (
+        f"<h3>➡️ {titulo}</h3>"
+        f"<p><b>Fórmula Utilizada:</b><br><code>{formula}</code></p>"
+        f"<p><b>Onde:</b></p>{entradas_html}"
+        f"<p><b>Substituindo os valores:</b><br><code>{substituicao}</code></p>"
+        f"<p><b>Resultado:</b><br><code>{resultado_final}</code></p>"
+    )
+    return html
+
 def calcular_energia_cinetica(m, v):
     """
     Calcula a Energia Cinética (Ec).
@@ -8,19 +24,19 @@ def calcular_energia_cinetica(m, v):
     ec = 0.5 * m * (v**2)
     
     # 2. Cria o passo a passo
-    passo_a_passo = (
-        f"### ➡️ Cálculo da Energia Cinética ($\text{{E}}_c$) \n"
-        f"**Fórmula Utilizada:** $$E_c = \\frac{{1}}{{2}} m \\cdot v^2$$ \n"
-        f"Onde:\n"
-        f" - $m$ = Massa ({{m:.2f}} kg)\n"
-        f" - $v$ = Velocidade ({{v:.2f}} m/s)\n\n"
-        
-        f"**Substituindo os valores:**\n"
-        f"$$E_c = 0.5 \\cdot ({{m:.2f}}) \\cdot ({{v:.2f}})^2$$ \n"
-        f"$$E_c = 0.5 \\cdot ({{m:.2f}}) \\cdot ({{v**2:.2f}})$$ \n"
-        f"**Resultado:**\n"
-        f"$$E_c = \\mathbf{{{ec:.2f}}} \\text{{ J}}$$ (Joules)"
+    titulo = "Cálculo da Energia Cinética (E_c)"
+    formula = "E_c = ½ m·v²"
+    entradas = [
+        f"m = Massa ({m:.2f} kg)",
+        f"v = Velocidade ({v:.2f} m/s)"
+    ]
+    substituicao = (
+        f"E_c = 0.5 · ({m:.2f}) · ({v:.2f})²<br>"
+        f"E_c = 0.5 · ({m:.2f}) · ({v**2:.2f})"
     )
+    resultado = f"E_c = <b>{ec:.2f} J</b> (Joules)"
+    
+    passo_a_passo = formatar_passo_a_passo(titulo, formula, entradas, substituicao, resultado)
     
     return ec, passo_a_passo
 
@@ -35,17 +51,18 @@ def calcular_energia_potencial_grav(m, g, h):
     epg = m * g * h
     
     # 2. Cria o passo a passo
-    passo_a_passo = (
-        f"### ➡️ Cálculo da Energia Potencial Gravitacional ($\text{{E}}_{{pg}}$) \n"
-        f"**Fórmula Utilizada:** $$E_{{pg}} = m \\cdot g \\cdot h$$ \n"
-        f"Onde:\n"
-        f" - $m$ = Massa ({{m:.2f}} kg)\n"
-        f" - $g$ = Gravidade ({{g:.2f}} m/s²)\n"
-        f" - $h$ = Altura ({{h:.2f}} m)\n\n"
-        
-        f"**Substituindo os valores:**\n"
-        f"$$E_{{pg}} = ({{m:.2f}}) \\cdot ({{g:.2f}}) \\cdot ({{h:.2f}})$$ \n"
-        f"$$E_{{pg}} = \\mathbf{{{epg:.2f}}} \\text{{ J}}$$ (Joules)"
+    titulo = "Cálculo da Energia Potencial Gravitacional (E_pg)"
+    formula = "E_pg = m·g·h"
+    entradas = [
+        f"m = Massa ({m:.2f} kg)",
+        f"g = Gravidade ({g:.2f} m/s²)",
+        f"h = Altura ({h:.2f} m)"
+    ]
+    substituicao = (
+        f"E_pg = ({m:.2f}) · ({g:.2f}) · ({h:.2f})"
     )
+    resultado = f"E_pg = <b>{epg:.2f} J</b> (Joules)"
     
+    passo_a_passo = formatar_passo_a_passo(titulo, formula, entradas, substituicao, resultado)
+
     return epg, passo_a_passo
