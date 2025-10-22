@@ -15,42 +15,30 @@
 
 Calculadora de Física desenvolvida em **Python** com a biblioteca **PyQt5** como atividade para a disciplina de **Física Geral e Experimental I**, do curso de Engenharia de Computação.
 
-O principal diferencial é o **motor de exibição de passo a passo** para cada cálculo, focado em auxiliar o estudante a visualizar a aplicação correta das fórmulas. A interface é moderna e possui suporte a **Modo Escuro / Modo Claro**.
+O principal diferencial é o **motor de exibição de passo a passo** para cada cálculo, focado em auxiliar o estudante a visualizar a aplicação correta das fórmulas. A interface possui suporte a **Modo Escuro / Modo Claro**.
 <br/>
 
 <br/>
 
 ### ⚙️ Principais Funcionalidades
 
-* **Cálculos de MRUV:** Resolve as 3 fórmulas principais (Velocidade Final, Posição Final e Torricelli).
+* **Cálculos de MRUV:** Resolve as 3 fórmulas principais (Velocidade Final, Posição Final e Torricelli). Permite calcular MRU definindo a aceleração como zero.
+* **Cálculos de MCU:** Calcula Velocidade Linear, Velocidade Angular, Período, Frequência e Aceleração Centrípeta. *(Novo!)*
 * **Cálculos de Queda Livre:** Calcula a altura e a velocidade final no movimento vertical.
 * **Cálculos de Energia:** Calcula Energia Cinética e Energia Potencial Gravitacional.
 * **Cálculos de Lançamento Oblíquo:** Encontra a Altura Máxima, Alcance e Tempo de Voo.
-* **Conversor de Unidades:** Converte unidades comuns de Velocidade, Distância, Temperatura e Energia.
+* **Conversor de Unidades:** Converte unidades comuns de Velocidade, Energia, Distância e Temperatura.
 * **UI Avançada:** Interface gráfica com temas (Claro/Escuro) e uma tela de "Resultado Ampliado" para facilitar a leitura do passo a passo.
 
----
+<br/>
+
+## Download
+<p align=>
+  <strong>Windows:</strong> <a href="dist/"><strong>Clique Aqui</strong></a>
+</p>
 
 <br/>
 
-<br/>
-
-## 🛠️ Instalação e Execução
-
-Existem duas maneiras de executar o projeto:
-
-### Método 1: Executando o .exe (Recomendado - Windows)
-
-O executável já compilado está disponível na pasta `dist/`.
-
-1.  Navegue até a pasta `dist/`.
-2.  Execute o arquivo `CalculadoraDeFisica.exe`.
-
-<br/>
-
-### Método 2: Executando a partir do Código-Fonte
-
-Este método requer que você tenha o Python e as bibliotecas instaladas.
 
 ### Pré-requisitos
 
