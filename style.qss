@@ -1,0 +1,82 @@
+/* style.qss */
+
+/* Configurações Globais (janela principal e widgets) */
+QWidget {
+    background-color: #2E3440; /* Fundo Escuro Nórdico (Nord theme) */
+    color: #ECEFF4; /* Texto Principal Claro */
+    font-family: Arial, sans-serif;
+    font-size: 10pt;
+}
+
+/* Títulos e Labels */
+QLabel {
+    color: #ECEFF4;
+}
+
+/* Estilo para Títulos de Tela (ex: "Movimento Retilíneo...") */
+QLabel[styleSheet*="font-size: 18pt"] {
+    color: #88C0D0; /* Azul Claro de Destaque */
+    font-weight: bold;
+}
+
+/* Caixas de Texto (QLineEdit) e Área de Resultados (QTextEdit) */
+QLineEdit, QTextEdit {
+    background-color: #3B4252; /* Fundo mais escuro para campos de input */
+    border: 1px solid #4C566A; /* Borda sutil */
+    padding: 5px;
+    border-radius: 4px;
+    color: #ECEFF4;
+}
+
+/* Botões (QPushButton) */
+QPushButton {
+    background-color: #5E81AC; /* Azul Principal do Botão */
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    min-height: 25px; /* Garante altura mínima para clique */
+}
+
+/* Efeito Hover (passar o mouse) */
+QPushButton:hover {
+    background-color: #81A1C1; /* Azul mais claro ao passar o mouse */
+}
+
+/* Grupo de Caixas (QGroupBox) */
+QGroupBox {
+    border: 1px solid #4C566A;
+    margin-top: 15px; /* Espaço para o título */
+    padding-top: 10px;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left; /* Posição do Título */
+    padding: 0 5px;
+    background-color: #2E3440;
+    color: #A3BE8C; /* Verde sutil para títulos de grupo */
+    font-weight: bold;
+}
+
+/* ComboBox (Lista Suspensa) */
+QComboBox {
+    background-color: #3B4252;
+    border: 1px solid #4C566A;
+    padding: 5px;
+    border-radius: 4px;
+}
+QComboBox::drop-down {
+    border-left: 1px solid #4C566A;
+}
+QComboBox QAbstractItemView {
+    background-color: #3B4252; /* Fundo do menu aberto */
+    selection-background-color: #5E81AC; /* Seleção */
+    color: #ECEFF4;
+}
+
+/* Menu Lateral (Sidebar) */
+QFrame {
+    background-color: #3B4252; /* Fundo do menu lateral um pouco mais claro que o fundo principal */
+    border-right: 2px solid #4C566A; /* Separador */
+}
