@@ -34,7 +34,7 @@ O principal diferencial é o **motor de exibição de passo a passo** para cada 
 
 ## Download
 <p align=>
-  <strong>Windows:</strong> <a href="dist/"><strong>Clique Aqui</strong></a>
+  <strong>Windows:</strong> <a href="https://github.com/boosa515/Calculadora-F-sica/raw/refs/heads/main/dist/CalculadoraDeFisica.exe"><strong>Clique Aqui</strong></a>
 </p>
 
 <br/>
