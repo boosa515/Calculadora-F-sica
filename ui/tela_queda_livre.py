@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt, QLocale
 from PyQt5.QtGui import QDoubleValidator
 
-# Importa as funções de cálculo da pasta 'core'
 from core.calculos_queda_livre import (
     calcular_altura_final, 
     calcular_velocidade_final_gravidade,
@@ -13,18 +12,14 @@ from core.calculos_queda_livre import (
 ) 
 
 class TelaQuedaLivre(QWidget):
-    """
-    Define a interface para Queda Livre e Lançamento Vertical.
-    Permite escolher o valor da aceleração da gravidade e calcula a altura/velocidade final.
-    """
     def __init__(self, parent=None):
         super().__init__(parent)
         self.parent_window = parent 
+        self.passo_a_passo_html = "" # Armazena o HTML
 
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignTop)
 
-        # Título e Explicação Teórica
         titulo = QLabel("Queda Livre e Lançamento Vertical")
         titulo.setStyleSheet("font-size: 18pt; font-weight: 600; margin-bottom: 15px;")
         layout.addWidget(titulo)
@@ -37,7 +32,6 @@ class TelaQuedaLivre(QWidget):
         control_group = QGroupBox("Controles e Fórmulas")
         form_layout_control = QFormLayout(control_group)
 
-        # Seletor de Gravidade
         self.combo_gravidade = QComboBox()
         self.combo_gravidade.addItems([
             f"Terra (g = {GRAVIDADE_TERRA} m/s²)", 
@@ -46,7 +40,6 @@ class TelaQuedaLivre(QWidget):
         ])
         self.combo_gravidade.currentIndexChanged.connect(self.atualizar_gravidade)
         
-        # Campo para Gravidade Personalizada
         self.g_input_personalizado = QLineEdit(str(GRAVIDADE_TERRA))
         self.g_input_personalizado.setPlaceholderText("Insira o valor de g (m/s²)")
         self.g_input_personalizado.setEnabled(False) 
@@ -54,7 +47,6 @@ class TelaQuedaLivre(QWidget):
         form_layout_control.addRow("Gravidade (g):", self.combo_gravidade)
         form_layout_control.addRow("Valor de g:", self.g_input_personalizado)
 
-        # Seletor de Fórmula
         self.combo_formula = QComboBox()
         self.combo_formula.addItems([
             "Altura Final (h = h₀ + v₀·t - ½ g·t²)", 
@@ -69,10 +61,8 @@ class TelaQuedaLivre(QWidget):
         dados_group = QGroupBox("Entrada de Dados (Preencha os dados necessários)")
         self.form_layout_dados = QFormLayout(dados_group)
         
-        # Cria um validador para números flutuantes
         float_validator = QDoubleValidator()
         float_validator.setDecimals(4) 
-        # CORREÇÃO: Define o Locale para "C" (aceita PONTO como separador)
         float_validator.setLocale(QLocale(QLocale.C))
         
         self.inputs = {}
@@ -102,9 +92,15 @@ class TelaQuedaLivre(QWidget):
         self.resultado_output = QTextEdit()
         self.resultado_output.setReadOnly(True)
         self.resultado_output.setPlaceholderText("O passo a passo e o resultado do cálculo aparecerão aqui.")
-        # Removido o estilo que definia cor de fundo fixa
         self.resultado_output.setStyleSheet("font-size: 11pt; padding: 10px;")
         layout.addWidget(self.resultado_output)
+
+        # 5. BOTÃO AMPLIAR (NOVO)
+        self.btn_ampliar = QPushButton("Ampliar Resultado")
+        self.btn_ampliar.setStyleSheet("padding: 5px; font-weight: bold; font-size: 9pt;")
+        self.btn_ampliar.clicked.connect(self.ampliar_resultado)
+        self.btn_ampliar.hide() # Começa escondido
+        layout.addWidget(self.btn_ampliar)
 
 
     def atualizar_gravidade(self, index):
@@ -124,13 +120,18 @@ class TelaQuedaLivre(QWidget):
         for key in self.inputs:
             self.inputs[key].clear()
         self.resultado_output.clear()
+        self.passo_a_passo_html = "" # Limpa o HTML salvo
+        self.btn_ampliar.hide() # Esconde o botão
+
+    def ampliar_resultado(self):
+        """Chama a janela principal para mostrar o resultado ampliado."""
+        if self.passo_a_passo_html:
+            self.parent_window.mostrar_tela_resultado(self.passo_a_passo_html)
 
     def _obter_dados_entrada(self, campos_necessarios):
         """Tenta obter e converter os dados dos campos de entrada, incluindo a gravidade."""
         dados = {}
         
-        # Tenta obter a gravidade (g)
-        # CORREÇÃO: Garante que vírgulas também sejam aceitas
         g_texto = self.g_input_personalizado.text().replace(',', '.')
         try:
             dados['g'] = float(g_texto)
@@ -138,9 +139,7 @@ class TelaQuedaLivre(QWidget):
              QMessageBox.critical(self, "Erro", "Gravidade (g) inválida.")
              return None
         
-        # Tenta obter os demais campos necessários
         for campo in campos_necessarios:
-            # CORREÇÃO: Garante que vírgulas também sejam aceitas
             texto = self.inputs[campo].text().replace(',', '.')
             if not texto:
                 return None
@@ -155,9 +154,11 @@ class TelaQuedaLivre(QWidget):
     def realizar_calculo(self):
         """Lê a entrada, valida e chama a função de cálculo correta no backend."""
         self.resultado_output.clear()
+        self.btn_ampliar.hide()
+        self.passo_a_passo_html = ""
+        
         formula_index = self.combo_formula.currentIndex()
         
-        # Mapeamento dos campos necessários para cada fórmula
         requisitos = {
             0: {"campos": ["h0", "v0", "t"], "nome": "Altura Final"},
             1: {"campos": ["v0", "t"], "nome": "Velocidade Final"},
@@ -187,4 +188,6 @@ class TelaQuedaLivre(QWidget):
             return
             
         # 3. Exibe o passo a passo
+        self.passo_a_passo_html = passo_a_passo # Salva o HTML
         self.resultado_output.setHtml(passo_a_passo)
+        self.btn_ampliar.show() # Mostra o botão

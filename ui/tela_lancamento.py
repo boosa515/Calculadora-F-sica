@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt, QLocale
 from PyQt5.QtGui import QDoubleValidator
 
-# Importa as funções de cálculo
 from core.calculos_lancamento import (
     calcular_lancamento_obliquo,
     GRAVIDADE_TERRA
@@ -15,11 +14,11 @@ class TelaLancamento(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.parent_window = parent 
+        self.passo_a_passo_html = "" # Armazena o HTML
 
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignTop)
 
-        # Título e Explicação
         titulo = QLabel("Lançamento Oblíquo")
         titulo.setStyleSheet("font-size: 18pt; font-weight: 600; margin-bottom: 15px;")
         layout.addWidget(titulo)
@@ -34,7 +33,6 @@ class TelaLancamento(QWidget):
         
         float_validator = QDoubleValidator()
         float_validator.setDecimals(4) 
-        # CORREÇÃO: Define o Locale para "C" (aceita PONTO como separador)
         float_validator.setLocale(QLocale(QLocale.C))
         
         self.inputs = {}
@@ -52,9 +50,7 @@ class TelaLancamento(QWidget):
             self.inputs[key] = line_edit
             self.form_layout_dados.addRow(label, line_edit)
             
-        # Sugere o valor da gravidade
         self.inputs['g'].setText(str(GRAVIDADE_TERRA))
-        
         layout.addWidget(dados_group)
 
         # 2. BOTÃO DE CÁLCULO
@@ -67,20 +63,39 @@ class TelaLancamento(QWidget):
         self.resultado_output = QTextEdit()
         self.resultado_output.setReadOnly(True)
         self.resultado_output.setPlaceholderText("O passo a passo e os resultados (Altura Máxima, Alcance e Tempo de Voo) aparecerão aqui.")
-        # Removido o estilo que definia cor de fundo fixa
         self.resultado_output.setStyleSheet("font-size: 11pt; padding: 10px;")
         layout.addWidget(self.resultado_output)
 
+        # 4. BOTÃO AMPLIAR (NOVO)
+        self.btn_ampliar = QPushButton("Ampliar Resultado")
+        self.btn_ampliar.setStyleSheet("padding: 5px; font-weight: bold; font-size: 9pt;")
+        self.btn_ampliar.clicked.connect(self.ampliar_resultado)
+        self.btn_ampliar.hide() # Começa escondido
+        layout.addWidget(self.btn_ampliar)
+
+    def limpar_campos(self):
+        """Limpa campos (exceto gravidade)."""
+        self.inputs['v0'].clear()
+        self.inputs['angulo'].clear()
+        self.resultado_output.clear()
+        self.passo_a_passo_html = ""
+        self.btn_ampliar.hide()
+        
+    def ampliar_resultado(self):
+        """Chama a janela principal para mostrar o resultado ampliado."""
+        if self.passo_a_passo_html:
+            self.parent_window.mostrar_tela_resultado(self.passo_a_passo_html)
 
     def realizar_calculo(self):
         self.resultado_output.clear()
+        self.btn_ampliar.hide()
+        self.passo_a_passo_html = ""
         
         campos_necessarios = ["v0", "angulo", "g"]
         
         # 1. Obtém e valida os dados
         dados = {}
         for campo in campos_necessarios:
-            # CORREÇÃO: Garante que vírgulas também sejam aceitas
             texto = self.inputs[campo].text().replace(',', '.')
             if not texto:
                 QMessageBox.warning(self, "Atenção", "Por favor, preencha todos os campos necessários.")
@@ -107,4 +122,6 @@ class TelaLancamento(QWidget):
             return
             
         # 4. Exibe o passo a passo
+        self.passo_a_passo_html = passo_a_passo # Salva o HTML
         self.resultado_output.setHtml(passo_a_passo)
+        self.btn_ampliar.show() # Mostra o botão

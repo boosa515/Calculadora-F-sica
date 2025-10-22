@@ -13,15 +13,10 @@ from core.calculos_mruv import (
 ) 
 
 class TelaMRUV(QWidget):
-    """
-    Define a interface gráfica para os cálculos de Movimento Retilíneo Uniformemente Variado (MRUV).
-    
-    Permite ao usuário selecionar entre as três principais fórmulas (Velocidade, Posição e Torricelli) 
-    e exibe o resultado junto com o passo a passo detalhado.
-    """
     def __init__(self, parent=None):
         super().__init__(parent)
         self.parent_window = parent 
+        self.passo_a_passo_html = "" # Armazena o HTML do resultado
 
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignTop)
@@ -45,8 +40,6 @@ class TelaMRUV(QWidget):
             "Posição Final (s = s₀ + v₀·t + ½ a·t²)", 
             "Velocidade sem Tempo (v² = v₀² + 2·a·Δs)"
         ])
-        
-        # Conecta o ComboBox ao método que LIMPA os campos
         self.combo_formula.currentIndexChanged.connect(self.limpar_campos)
         
         form_layout.addRow("Fórmula/Resultado:", self.combo_formula)
@@ -56,16 +49,11 @@ class TelaMRUV(QWidget):
         dados_group = QGroupBox("Entrada de Dados (Preencha os dados necessários)")
         self.form_layout_dados = QFormLayout(dados_group)
         
-        # Cria um validador para números flutuantes (decimais)
         float_validator = QDoubleValidator()
         float_validator.setDecimals(4) 
-        # CORREÇÃO: Define o Locale para "C" (aceita PONTO como separador)
         float_validator.setLocale(QLocale(QLocale.C))
         
-        # Dicionário para armazenar o QLineEdit de cada campo
         self.inputs = {}
-        
-        # Criação de TODOS os campos possíveis
         campos = [
             ("s0", "Posição Inicial (s₀ - m):"),
             ("v0", "Velocidade Inicial (v₀ - m/s):"),
@@ -94,48 +82,52 @@ class TelaMRUV(QWidget):
         self.resultado_output = QTextEdit()
         self.resultado_output.setReadOnly(True)
         self.resultado_output.setPlaceholderText("O passo a passo e o resultado do cálculo aparecerão aqui.")
-        # Removido o estilo que definia cor de fundo fixa
         self.resultado_output.setStyleSheet("font-size: 11pt; padding: 10px;")
         layout.addWidget(self.resultado_output)
 
+        # 5. BOTÃO AMPLIAR (NOVO)
+        self.btn_ampliar = QPushButton("Ampliar Resultado")
+        self.btn_ampliar.setStyleSheet("padding: 5px; font-weight: bold; font-size: 9pt;")
+        self.btn_ampliar.clicked.connect(self.ampliar_resultado)
+        self.btn_ampliar.hide() # Começa escondido
+        layout.addWidget(self.btn_ampliar)
+
 
     def limpar_campos(self):
-        """
-        Limpa todos os campos de entrada e a área de resultados.
-        Este método é chamado quando o tipo de fórmula é alterado.
-        """
+        """Limpa todos os campos de entrada e a área de resultados."""
         for key in self.inputs:
             self.inputs[key].clear()
         self.resultado_output.clear()
+        self.passo_a_passo_html = "" # Limpa o HTML salvo
+        self.btn_ampliar.hide() # Esconde o botão
+
+    def ampliar_resultado(self):
+        """Chama a janela principal para mostrar o resultado ampliado."""
+        if self.passo_a_passo_html:
+            self.parent_window.mostrar_tela_resultado(self.passo_a_passo_html)
 
     def _obter_dados_entrada(self, campos_necessarios):
-        """
-        Tenta obter e converter os dados dos campos de entrada necessários para float.
-        Retorna None se houver campos vazios ou erro de conversão (Validação de Dados).
-        """
+        """Tenta obter e converter os dados dos campos de entrada necessários para float."""
         dados = {}
-        
         for campo in campos_necessarios:
-            # CORREÇÃO: Garante que vírgulas também sejam aceitas, convertendo para ponto
             texto = self.inputs[campo].text().replace(',', '.')
             if not texto:
-                return None  # Retorna erro se campo necessário estiver vazio
-            
+                return None
             try:
-                # Converte o texto para float
                 dados[campo] = float(texto)
             except ValueError:
                 return None 
-                
         return dados
 
 
     def realizar_calculo(self):
         """Lê a entrada, valida e chama a função de cálculo correta no backend (core)."""
         self.resultado_output.clear()
+        self.btn_ampliar.hide() # Esconde botão
+        self.passo_a_passo_html = ""
+        
         formula_index = self.combo_formula.currentIndex()
         
-        # Mapeamento dos campos necessários para cada fórmula
         requisitos = {
             0: {"campos": ["v0", "a", "t"], "nome": "Velocidade Final"},
             1: {"campos": ["s0", "v0", "a", "t"], "nome": "Posição Final"},
@@ -145,7 +137,6 @@ class TelaMRUV(QWidget):
         campos_necessarios = requisitos[formula_index]["campos"]
         nome_calculo = requisitos[formula_index]["nome"]
         
-        # Validação dos dados
         dados = self._obter_dados_entrada(campos_necessarios)
 
         if dados is None:
@@ -166,8 +157,9 @@ class TelaMRUV(QWidget):
                 resultado, passo_a_passo = calcular_torricelli(dados['v0'], dados['a'], dados['ds'])
                 if resultado is None:
                     # Captura o erro físico (raiz de número negativo)
-                    # Exibe o erro formatado em HTML
+                    self.passo_a_passo_html = passo_a_passo # Salva o erro
                     self.resultado_output.setHtml(passo_a_passo) 
+                    self.btn_ampliar.show() # Mostra o botão mesmo em caso de erro
                     return
         
         except Exception as e:
@@ -175,4 +167,6 @@ class TelaMRUV(QWidget):
             return
             
         # 3. Exibe o passo a passo
+        self.passo_a_passo_html = passo_a_passo # Salva o HTML
         self.resultado_output.setHtml(passo_a_passo)
+        self.btn_ampliar.show() # Mostra o botão
