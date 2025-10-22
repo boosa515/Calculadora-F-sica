@@ -9,7 +9,8 @@ from ui.tela_energia import TelaEnergia
 from ui.tela_lancamento import TelaLancamento
 from ui.tela_conversor import TelaConversor
 from ui.tela_inicial import TelaInicial 
-from ui.tela_resultado import TelaResultado # <- NOVO IMPORT
+from ui.tela_resultado import TelaResultado
+from ui.tela_mcu import TelaMCU
 
 class MainWindow(QMainWindow):
     """
@@ -35,6 +36,7 @@ class MainWindow(QMainWindow):
         self.telas_map = {
             "INICIAL": TelaInicial,
             "MRUV": TelaMRUV,
+            "MCU": TelaMCU,
             "Queda Livre": TelaQuedaLivre,
             "Energia": TelaEnergia,
             "Lançamento Oblíquo": TelaLancamento,
