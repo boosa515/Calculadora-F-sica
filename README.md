@@ -39,6 +39,9 @@ O principal diferencial é o **motor de exibição de passo a passo** para cada 
 * **Conversor de Unidades:** Converte unidades comuns de Velocidade, Energia, Distância e Temperatura.
 * **UI Avançada:** Interface gráfica com temas (Claro/Escuro) e uma tela de "Resultado Ampliado" para facilitar a leitura do passo a passo.
 
+<br/>
+
+<br/>
 
 ### Pré-requisitos
 
