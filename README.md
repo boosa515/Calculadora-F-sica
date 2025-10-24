@@ -11,6 +11,15 @@
 
 <br/>
 
+<br/>
+
+## Download
+<p align=>
+  <strong>Windows:</strong> <a href="https://github.com/boosa515/Calculadora-F-sica/raw/refs/heads/main/dist/CalculadoraDeFisica.exe"><strong>Clique Aqui (Direto)</strong></a> ou <strong></strong> <a href="dist/"><strong>Clique Aqui (Baixar da pasta)</strong></a>
+</p>
+
+<br/>
+
 ## 💡 Sobre o Projeto
 
 Calculadora de Física desenvolvida em **Python** com a biblioteca **PyQt5** como atividade para a disciplina de **Física Geral e Experimental I**, do curso de Engenharia de Computação.
@@ -29,15 +38,6 @@ O principal diferencial é o **motor de exibição de passo a passo** para cada 
 * **Cálculos de Lançamento Oblíquo:** Encontra a Altura Máxima, Alcance e Tempo de Voo.
 * **Conversor de Unidades:** Converte unidades comuns de Velocidade, Energia, Distância e Temperatura.
 * **UI Avançada:** Interface gráfica com temas (Claro/Escuro) e uma tela de "Resultado Ampliado" para facilitar a leitura do passo a passo.
-
-<br/>
-
-## Download
-<p align=>
-  <strong>Windows:</strong> <a href="https://github.com/boosa515/Calculadora-F-sica/raw/refs/heads/main/dist/CalculadoraDeFisica.exe"><strong>Clique Aqui (Direto)</strong></a> ou <strong></strong> <a href="dist/"><strong>Clique Aqui (Baixar da pasta)</strong></a>
-</p>
-
-<br/>
 
 
 ### Pré-requisitos
