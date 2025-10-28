@@ -29,15 +29,15 @@ O principal diferencial é o **motor de exibição de passo a passo** para cada 
 
 <br/>
 
-### Teste do software
----
+## Teste do software
+
   <strong>Video:</strong> <a href="https://youtu.be/5JuoxZD4NVM"><strong>Clique Aqui</strong></a>
 <br/>
 
 <br/>
 
-### ⚙️ Principais Funcionalidades
----
+## ⚙️ Principais Funcionalidades
+
 * **Cálculos de MRUV:** Resolve as 3 fórmulas principais (Velocidade Final, Posição Final e Torricelli). Permite calcular MRU definindo a aceleração como zero.
 * **Cálculos de MCU:** Calcula Velocidade Linear, Velocidade Angular, Período, Frequência e Aceleração Centrípeta.
 * **Cálculos de Queda Livre:** Calcula a altura e a velocidade final no movimento vertical.
