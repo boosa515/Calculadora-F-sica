@@ -50,8 +50,8 @@ O principal diferencial é o **motor de exibição de passo a passo** para cada 
 
 <br/>
 
-### Pré-requisitos
----
+## Pré-requisitos
+
 * Python 3.x
 
 <br/>
