@@ -15,7 +15,7 @@
 
 ## Download
 <p align=>
-  <strong>Windows:</strong> <a href="https://github.com/boosa515/Calculadora-F-sica/raw/refs/heads/main/dist/Win/CalculadoraDeFisica.exe"><strong>Clique Aqui (Executável)</strong></a> ou <strong></strong> <a href="https://github.com/boosa515/Calculadora-F-sica/archive/refs/heads/main.zip"><strong>Clique Aqui (Código-Fonte)</strong></a>
+  <strong>Windows:</strong> <a href="https://www.dropbox.com/scl/fi/fs8jw504epu3nwqlpy0pn/CalculadoraDeFisica.exe?rlkey=w9lqfd9fbcftr1x84uw3svlaz&st=sfe6hmwr&dl=1"><strong>Clique Aqui (Executável)</strong></a> ou <strong></strong> <a href="https://github.com/boosa515/Calculadora-F-sica/archive/refs/heads/main.zip"><strong>Clique Aqui (Código-Fonte)</strong></a>
 </p>
 
 <br/>
