@@ -59,7 +59,10 @@ The main differentiator is the **step-by-step display engine** for each calculat
 
 
 <div align="center">
-  <img src="imagens/" width="250" alt="#">
-  <img src="imagens/" width="250" alt="#">
+  <img src="imagens/Captura de tela 2026-03-13 024650.png" width="250" alt="Home">
+  <img src="imagens/Captura de tela 2026-03-13 024719.png" width="250" alt="Home">
+</div>
+<div align>
+  <img src="imagens/Captura de tela 2026-03-13 024709.png" width="250" alt="Queda Livre">
 </div>
 
