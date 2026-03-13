@@ -57,41 +57,9 @@ The main differentiator is the **step-by-step display engine** for each calculat
 
 <br/>
 
-# 1. Environment Setup
 
-Assuming you have already cloned the repository and are in the project directory:
+<div align="center">
+  <img src="imagens/" width="250" alt="#">
+  <img src="imagens/" width="250" alt="#">
+</div>
 
-Create and activate the virtual environment
-  ```bash
-  python -m venv venv
-  ```
-  
-  Windows:
-  ```bash
-  .\venv\Scripts\activate
-  ```
-  
-  macOS/Linux:
-  ```bash
-  source venv/bin/activate
-  ```
-  
-  Install dependencies (PyQt5 and PyInstaller)
-  ```bash
-  pip install PyQt5 pyinstaller
-  ```
-<br/>
-
-# 2. Run the Application
-With the virtual environment activated, run the main script.
-
-
-  Start the application
-  ```bash
-  python main.py
-  ```
-  
-  Access
-  ```bash
-  The main calculator window will open automatically.
-  ```
