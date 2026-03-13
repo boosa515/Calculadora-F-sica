@@ -1,4 +1,4 @@
-# < Physics Calculator > ⚛️
+# Physics Calculator
 <br/>
 
 <br/>
@@ -20,7 +20,7 @@
 
 <br/>
 
-## 💡 About the Project
+## About the Project
 
 Physics Calculator developed in **Python** using the **PyQt5** library as an assignment for the **General and Experimental Physics I** course, in the Computer Engineering program.
 The main differentiator is the **step-by-step display engine** for each calculation, focused on helping the student visualize the correct application of formulas. The interface supports **Dark Mode / Light Mode**.
@@ -35,7 +35,7 @@ The main differentiator is the **step-by-step display engine** for each calculat
 
 <br/>
 
-## ⚙️ Key Features
+## Key Features
 
 * **UARM Calculations:** Solves the 3 main formulas (Final Velocity, Final Position, and Torricelli). Allows calculating URM by defining acceleration as zero.
 * **UCM Calculations:** Calculates Linear Velocity, Angular Velocity, Period, Frequency, and Centripetal Acceleration.
